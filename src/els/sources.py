@@ -25,6 +25,9 @@ def normalize(frame):
 def fetch(spec, start, end, base):
     if spec["source"] == "csv":
         return normalize(pd.read_csv(Path(base) / spec["path"]))
+    if spec["source"] in {"yahoo", "naver"}:
+        from els.market_sources import fetch_market
+        return fetch_market(spec, start, end)
     if spec["source"] != "fred":
         raise ValueError("Unsupported source")
     key = os.environ.get("FRED_API_KEY")

@@ -1,0 +1,12 @@
+{
+  "start": "1992-01-01",
+  "stale_weeks": 3,
+  "data_kind": "external_experimental",
+  "series": [
+    {"id": "kospi200", "source": "naver", "symbol": "KPI200", "transform": "return"},
+    {"id": "sp500", "source": "yahoo", "symbol": "^GSPC", "transform": "return"},
+    {"id": "eurostoxx50", "source": "yahoo", "symbol": "^STOXX50E", "transform": "return"},
+    {"id": "nikkei225", "source": "yahoo", "symbol": "^N225", "transform": "return"},
+    {"id": "hscei", "source": "yahoo", "symbol": "^HSCE", "transform": "return"}
+  ]
+}

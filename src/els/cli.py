@@ -36,7 +36,19 @@ def main():
     b.add_argument("--config", required=True)
     b.add_argument("--as-of", required=True, help="Completed Friday date (YYYY-MM-DD)")
     b.add_argument("--output", required=True)
+    f = commands.add_parser("features", help="Fit ETC selection on training rows only")
+    f.add_argument("--input", required=True)
+    f.add_argument("--config", required=True)
+    f.add_argument("--train-end", required=True)
+    f.add_argument("--output", required=True)
+    f.add_argument("--experimental-bins", action="store_true")
     args = parser.parse_args()
+    if args.command == "features":
+        from els.features import prepare
+        report = prepare(args.input, args.config, args.train_end, args.output, args.experimental_bins)
+        print("Selected: " + ", ".join(report["selected"]))
+        print("Common training weeks: " + str(report["samples"]))
+        return
     if args.command == "demo":
         config = demo(Path(args.output) / "input")
         panel = run(config, "2025-12-31", Path(args.output) / "result")
