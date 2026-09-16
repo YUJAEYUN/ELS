@@ -1,0 +1,21 @@
+{
+  "start": "1992-01-01",
+  "stale_weeks": 3,
+  "data_kind": "external",
+  "series": [
+    {
+      "id": "us10y",
+      "source": "fred",
+      "series_id": "DGS10",
+      "transform": "difference",
+      "availability_lag_days": 1
+    },
+    {
+      "id": "usdkrw",
+      "source": "fred",
+      "series_id": "DEXKOUS",
+      "transform": "return",
+      "availability_lag_days": 7
+    }
+  ]
+}

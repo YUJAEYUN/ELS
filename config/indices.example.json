@@ -1,0 +1,42 @@
+{
+  "start": "1992-01-01",
+  "data_kind": "external",
+  "stale_weeks": 3,
+  "series": [
+    {
+      "id": "kospi200",
+      "source": "csv",
+      "path": "../data/input/kospi200.csv",
+      "transform": "return",
+      "availability_lag_days": 0
+    },
+    {
+      "id": "sp500",
+      "source": "csv",
+      "path": "../data/input/sp500.csv",
+      "transform": "return",
+      "availability_lag_days": 0
+    },
+    {
+      "id": "eurostoxx50",
+      "source": "csv",
+      "path": "../data/input/eurostoxx50.csv",
+      "transform": "return",
+      "availability_lag_days": 0
+    },
+    {
+      "id": "nikkei225",
+      "source": "csv",
+      "path": "../data/input/nikkei225.csv",
+      "transform": "return",
+      "availability_lag_days": 0
+    },
+    {
+      "id": "hscei",
+      "source": "csv",
+      "path": "../data/input/hscei.csv",
+      "transform": "return",
+      "availability_lag_days": 0
+    }
+  ]
+}
