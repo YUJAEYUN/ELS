@@ -42,7 +42,18 @@ def main():
     f.add_argument("--train-end", required=True)
     f.add_argument("--output", required=True)
     f.add_argument("--experimental-bins", action="store_true")
+    m = commands.add_parser("experiment", help="52-week LightGBM walk-forward prototype")
+    m.add_argument("--batch", required=True)
+    m.add_argument("--output", required=True)
+    m.add_argument("--target", default="kospi200", choices=INDICES)
+    m.add_argument("--start", default="2020-01-03")
+    m.add_argument("--refit-weeks", type=int, default=13)
     args = parser.parse_args()
+    if args.command == "experiment":
+        from els.experiment import run_experiment
+        run_experiment(args.batch, args.output, args.target, args.start, args.refit_weeks)
+        print("Experiment and nine-model bundle saved")
+        return
     if args.command == "features":
         from els.features import prepare
         report = prepare(args.input, args.config, args.train_end, args.output, args.experimental_bins)
