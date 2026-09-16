@@ -48,7 +48,16 @@ def main():
     m.add_argument("--target", default="kospi200", choices=INDICES)
     m.add_argument("--start", default="2020-01-03")
     m.add_argument("--refit-weeks", type=int, default=13)
+    c = commands.add_parser("calibrate", help="Purged fit/calibration/test research experiment")
+    c.add_argument("--batch", required=True)
+    c.add_argument("--protocol", default="config/calibration.protocol.json")
+    c.add_argument("--output", required=True)
     args = parser.parse_args()
+    if args.command == "calibrate":
+        from els.calibration_experiment import run_calibration_experiment
+        run_calibration_experiment(args.batch, args.protocol, args.output)
+        print("Calibration comparison saved")
+        return
     if args.command == "experiment":
         from els.experiment import run_experiment
         run_experiment(args.batch, args.output, args.target, args.start, args.refit_weeks)

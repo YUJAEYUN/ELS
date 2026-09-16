@@ -1,0 +1,15 @@
+{
+  "target": "kospi200",
+  "horizon_weeks": 52,
+  "start": "2020-01-03",
+  "refit_weeks": 13,
+  "calibration_weeks": 104,
+  "minimum_fit_rows": 156,
+  "variant": "etc_bins",
+  "alpha": 0.10,
+  "cqr_nonnegative_expansion": true,
+  "quantile_shift_method": "empirical_linear",
+  "evaluation_role": "development_reused_dates_not_untouched_holdout",
+  "prospective_first_origin": "2026-09-18",
+  "prospective_first_label_end": "2027-09-17"
+}

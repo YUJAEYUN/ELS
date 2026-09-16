@@ -1,0 +1,51 @@
+{
+  "start": "1992-01-01",
+  "stale_weeks": 3,
+  "data_kind": "external_experimental",
+  "series": [
+    {
+      "id": "kospi200",
+      "source": "csv",
+      "path": "../data/runs/kospi200-history-2026-09-11/kospi200_raw.csv",
+      "transform": "return"
+    },
+    {
+      "id": "sp500",
+      "source": "csv",
+      "path": "../data/runs/indices-2026-09-11/sp500_raw.csv",
+      "transform": "return"
+    },
+    {
+      "id": "eurostoxx50",
+      "source": "csv",
+      "path": "../data/runs/indices-2026-09-11/eurostoxx50_raw.csv",
+      "transform": "return"
+    },
+    {
+      "id": "nikkei225",
+      "source": "csv",
+      "path": "../data/runs/indices-2026-09-11/nikkei225_raw.csv",
+      "transform": "return"
+    },
+    {
+      "id": "hscei",
+      "source": "csv",
+      "path": "../data/runs/indices-2026-09-11/hscei_raw.csv",
+      "transform": "return"
+    },
+    {
+      "id": "us10y",
+      "source": "csv",
+      "path": "../data/runs/2026-09-11/us10y_raw.csv",
+      "transform": "difference",
+      "availability_lag_days": 1
+    },
+    {
+      "id": "usdkrw",
+      "source": "csv",
+      "path": "../data/runs/2026-09-11/usdkrw_raw.csv",
+      "transform": "return",
+      "availability_lag_days": 7
+    }
+  ]
+}

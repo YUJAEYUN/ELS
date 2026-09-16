@@ -1,4 +1,5 @@
 """Experimental public chart adapters; no entitlement or historical coverage guarantee."""
+import ast
 import xml.etree.ElementTree as ET
 from urllib.parse import quote
 
@@ -63,6 +64,16 @@ def fetch_market(spec, start, end):
                             "interval": "1d"}, timeout=(10, 60))
                 response.raise_for_status()
                 result = parse_yahoo(response.json(), symbol)
+            elif spec["source"] == "naver_history":
+                if symbol != "KPI200":
+                    raise ValueError("Only verified KPI200 mapping supported")
+                response = session.get("https://api.finance.naver.com/siseJson.naver",
+                                       params={"symbol": symbol, "requestType": 1,
+                                               "startTime": start_date.strftime("%Y%m%d"),
+                                               "endTime": end_date.strftime("%Y%m%d"),
+                                               "timeframe": "day"}, timeout=(10, 60))
+                response.raise_for_status()
+                result = parse_naver_history(response.content)
             elif spec["source"] == "naver":
                 if symbol != "KPI200":
                     raise ValueError("Only verified KPI200 mapping supported")
@@ -79,3 +90,18 @@ def fetch_market(spec, start, end):
     if result["value"].dropna().empty or (result["value"].dropna() <= 0).any():
         raise ValueError("No usable positive index levels in requested range")
     return result
+
+
+def parse_naver_history(content):
+    """Naver date-range endpoint returns a Python-literal list, not strict JSON."""
+    if isinstance(content, bytes):
+        content = content.decode("utf-8-sig")
+    rows = ast.literal_eval(content.strip())  # Never execute provider text.
+    expected = ["날짜", "시가", "고가", "저가", "종가", "거래량", "외국인소진율"]
+    if not isinstance(rows, list) or len(rows) < 2 or rows[0] != expected:
+        raise ValueError("Unexpected Naver history header or empty data")
+    if any(not isinstance(row, list) or len(row) != 7 for row in rows[1:]):
+        raise ValueError("Unexpected Naver history row")
+    frame = pd.DataFrame(rows[1:], columns=expected)
+    return normalize(pd.DataFrame({"date": pd.to_datetime(frame["날짜"], format="%Y%m%d"),
+                                   "value": frame["종가"]}))

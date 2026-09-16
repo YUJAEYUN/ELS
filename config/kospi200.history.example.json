@@ -1,0 +1,8 @@
+{
+  "start": "1992-01-01",
+  "stale_weeks": 3,
+  "data_kind": "external_experimental",
+  "series": [
+    {"id": "kospi200", "source": "naver_history", "symbol": "KPI200", "transform": "return"}
+  ]
+}

@@ -4,6 +4,19 @@ import numpy as np
 from els.modeling import TAUS
 
 
+def interval_metrics(y, lower, upper, alpha=0.1):
+    y, lower, upper = (np.asarray(v, dtype=float) for v in (y, lower, upper))
+    if y.ndim != 1 or not len(y) or lower.shape != y.shape or upper.shape != y.shape:
+        raise ValueError("Invalid interval shapes")
+    if not 0 < alpha < 1 or not all(np.isfinite(v).all() for v in (y, lower, upper)) or (lower > upper).any():
+        raise ValueError("Invalid intervals")
+    width = upper - lower
+    score = width + 2 / alpha * np.maximum(lower - y, 0) + 2 / alpha * np.maximum(y - upper, 0)
+    return {"n": len(y), "coverage": float(((y >= lower) & (y <= upper)).mean()),
+            "mean_width": float(width.mean()), "mean_interval_score": float(score.mean()),
+            "below_rate": float((y < lower).mean()), "above_rate": float((y > upper).mean())}
+
+
 def metrics(y, point, quantiles):
     y, point, quantiles = np.asarray(y), np.asarray(point), np.asarray(quantiles)
     if y.ndim != 1 or point.shape != y.shape or quantiles.shape != (len(y), len(TAUS)) or not len(y):
